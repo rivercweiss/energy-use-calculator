@@ -1,7 +1,6 @@
 import streamlit as st
 import json_manager
 import json
-import os
 import solar_data_fetcher
 
 # Setup Page Layout
@@ -25,7 +24,7 @@ def update_value(category, item, uniqueKey):
         json.dump(EnergyJson, file, indent=4)
 
 def fetchData(latitude,longitude):
-    st.write("Fetching Data takes 1-2 minutes, invalid Lat or Long will return an error")
+    st.write("Fetching Data takes 1-2 minutes (a while :)). Invalid Lat or Long will return an error")
     df = solar_data_fetcher.getGHIAndTemperature(latitude, longitude)
     EnergyJson["Location"]["Latitude"] = latitude
     EnergyJson["Location"]["Longitude"] = longitude
@@ -104,7 +103,7 @@ with col2:
                 colB.write(value)
 
 with col3:
-    st.header("Location Outputs", help= "Calculations here assume ground temperature is the same as worst case air temperature")
+    st.header("Location Outputs", help= "Calculated with NREL data from 2001-2020. Calculations assume ground temperature is the same as worst case air temperature")
 
     st.write("Latitude: ")
     st.write(EnergyJson["Location"]["Latitude"])

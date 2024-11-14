@@ -16,7 +16,7 @@ def getGHIAndTemperature(latitude, longitude):
     attributes = 'ghi,air_temperature'
     # Choose year of data
     years = []
-    for year in range(2019,2021):
+    for year in range(2001,2021):
         years.append(str(year))
     # Set leap year to true or false. True will return leap day data if present, false will not.
     leap_year = 'false'

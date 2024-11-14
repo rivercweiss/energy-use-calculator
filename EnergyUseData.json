@@ -54,23 +54,23 @@
     },
     "Outputs": {
         "Total": {
-            "Total kWh Per Day": 70.26126255948438
+            "Total kWh Per Day": 84.1752317009921
         },
         "HVAC": {
-            "Total HVAC kWh Per Day": 30.610810745016707,
-            "Ventilation kWh Per Day": 5.312502,
-            "Roof kWh Per Day": 4.68914,
-            "Wall kWh Per Day": 8.388188636810693,
-            "Window kWh Per Day": 4.718356108206014,
-            "Floor kWh Per Day": 7.502624,
-            "Wall Area sqft": 1788.8543819998317,
-            "Window Area sqft": 268.32815729997475
+            "Total HVAC kWh Per Day": 44.49277988652443,
+            "Ventilation kWh Per Day": 7.5267528336,
+            "Roof kWh Per Day": 7.118114519999999,
+            "Wall kWh Per Day": 11.813714752591638,
+            "Window kWh Per Day": 6.645214548332795,
+            "Floor kWh Per Day": 11.388983232000001,
+            "Wall Area sqft": 1799.5555006723189,
+            "Window Area sqft": 269.9333251008478
         },
         "Hot Water": {
             "Total Hot Water kWh Per Day": 12.637894736842107
         },
         "Lighting": {
-            "Lighting kWh Per Day": 2.6666666666666665
+            "Lighting kWh Per Day": 2.6986666666666665
         },
         "Cooking": {
             "Cooking kWh Per Day": 3.75
@@ -92,49 +92,49 @@
         }
     },
     "Location": {
-        "Latitude": 0.0,
-        "Longitude": 0.0
+        "Latitude": 36.6,
+        "Longitude": -121.85
     },
     "Location Data": {
         "3 Day Period": {
-            "Lowest GHI": 0.0,
-            "Temperature During Lowest GHI": 0.0,
-            "Lowest Temperature": 0.0,
-            "GHI During Lowest Temperature": 0.0,
-            "Total kWh Per Day For Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
+            "Lowest GHI": 20.875,
+            "Temperature During Lowest GHI": 14.180555555555557,
+            "Lowest Temperature": 6.736111111111111,
+            "GHI During Lowest Temperature": 142.27777777777777,
+            "Total kWh Per Day For Lowest Temperature": 255.94340887925566,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 26029.792557818033,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 23521.0030634518,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 9.95070280373832
         },
         "7 Day Period": {
-            "Lowest GHI": 0.0,
-            "Temperature During Lowest GHI": 0.0,
-            "Lowest Temperature": 0.0,
-            "GHI During Lowest Temperature": 0.0,
-            "Total kWh Per Day For Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
+            "Lowest GHI": 40.88095238095238,
+            "Temperature During Lowest GHI": 14.113095238095237,
+            "Lowest Temperature": 7.75,
+            "GHI During Lowest Temperature": 138.74404761904762,
+            "Total kWh Per Day For Lowest Temperature": 252.58374727769586,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 13117.09423350488,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 12022.11512801547,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 19.4871476635514
         },
         "14 Day Period": {
-            "Lowest GHI": 0.0,
-            "Temperature During Lowest GHI": 0.0,
-            "Lowest Temperature": 0.0,
-            "GHI During Lowest Temperature": 0.0,
-            "Total kWh Per Day For Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
+            "Lowest GHI": 57.333333333333336,
+            "Temperature During Lowest GHI": 14.5,
+            "Lowest Temperature": 9.321428571428571,
+            "GHI During Lowest Temperature": 135.95238095238096,
+            "Total kWh Per Day For Lowest Temperature": 247.37660052929007,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 9160.193887262609,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 8524.773431132191,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 27.329674766355144
         },
         "30 Day Period": {
-            "Lowest GHI": 0.0,
-            "Temperature During Lowest GHI": 0.0,
-            "Lowest Temperature": 0.0,
-            "GHI During Lowest Temperature": 0.0,
-            "Total kWh Per Day For Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
+            "Lowest GHI": 72.18194444444444,
+            "Temperature During Lowest GHI": 14.202777777777778,
+            "Lowest Temperature": 10.204166666666667,
+            "GHI During Lowest Temperature": 139.07222222222222,
+            "Total kWh Per Day For Lowest Temperature": 244.45152529145452,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 7189.810033118919,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 6800.102317023109,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 34.407716261682246
         }
     }
 }

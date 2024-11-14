@@ -7,6 +7,9 @@ import solar_data_fetcher
 # Setup Page Layout
 st.set_page_config(layout="wide")
 
+# Number of Days to Calculate Array
+num_days = [3,7,14,30]
+
 # Initialize JSON
 fileName = "/workspaces/energy-use-calculator/EnergyUseData.json"
 json_manager.calculateOutputsAndUpdateJson()
@@ -22,7 +25,7 @@ def update_value(category, item, uniqueKey):
         json.dump(EnergyJson, file, indent=4)
 
 def fetchData(latitude,longitude, num_days):
-    st.write("Fetching Data, this will take 1-2 minutes")
+    st.write("Fetching Data takes 1-2 minutes, invalid Lat or Long will return an error")
     df = solar_data_fetcher.getGHIAndTemperature(latitude, longitude)
     lowest_ghi, temp_during_lowest_ghi, lowest_temp, ghi_during_lowest_temp = solar_data_fetcher.determineLowestTemperatureAndGhi(df, num_days)
     EnergyJson["Location"]["Lowest GHI"] = lowest_ghi
@@ -37,17 +40,14 @@ def fetchData(latitude,longitude, num_days):
 colA, colB, colC = st.columns(3)
 
 with colA:
-    latitude = st.number_input("Input Latitude", value=None, placeholder="Ex. 36.606841513598376")
+    latitude = st.number_input("Input Latitude", value=None, placeholder="Ex. 36.60", help= 'Find a location in google maps and right click to access coordinates. Two decimal places are accurate to 1.1 km')
 with colB:
-    longitude = st.number_input("Input Longitude", value=None, placeholder="Ex. -121.85034252078556")
+    longitude = st.number_input("Input Longitude", value=None, placeholder="Ex. -121.85", help= 'Find a location in google maps and right click to access coordinates. Two decimal places are accurate to 1.1 km')
 with colC:
     if (longitude != None) and (latitude != None):
-        enabled = True
+        submitted = st.button("Fetch Location Data", on_click= fetchData(latitude,longitude, 14))
     else:
-        enabled = False
-    submitted = st.button("Fetch Location Data", disabled= (not enabled), on_click= fetchData(latitude,longitude, 14))
-    if (submitted == True):
-        st.write("Fetching Data, this will take 1-2 minutes")
+        st.write("Input Lat and Long to fetch location data")
 
 
 # Display
@@ -89,17 +89,17 @@ with col2:
                 colB.write(value)
 
 with col3:
-    st.header("Location Requirements")
+    st.header("Location Outputs")
 
-    st.write(EnergyJson["Location"]["Lowest GHI"])
-    st.write(EnergyJson["Location"]["Temperature During Lowest GHI"])
-    st.write(EnergyJson["Location"]["Lowest Temperature"])
-    st.write(EnergyJson["Location"]["GHI During Lowest Temperature"])
+    st.write("Latitude: ")
+    st.write(EnergyJson["Location"]["Latitude"])
+    st.write("Longitude: ")
+    st.write(EnergyJson["Location"]["Longitude"])
 
-    st.write("Worst Case Temperature 3 Days")
-    st.write("Worst Case Temperature 7 Days")
-    st.write("Worst Case Temperature 14 Days")
-    st.write("Worst Case GHI 3 Days")
-    st.write("Worst Case GHI 7 Days")
-    st.write("Worst Case GHI 14 Days")
-    st.write("Photovoltaic Area Required")
+    for days in num_days:
+        day_string = str(days) + " Day Period"
+        with st.expander(day_string):
+            for item in EnergyJson["Location Data"][day_string]:
+                st.write(f"{item}")
+                value = round(EnergyJson["Location Data"][day_string][item], 2)
+                st.write(value)

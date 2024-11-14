@@ -102,9 +102,17 @@
         "Cost Of Solar Required": 13961.355704374619
     },
     "Location": {
-        "Lowest GHI": 99.44642857142857,
-        "Temperature During Lowest GHI": -5.23452380952381,
-        "Lowest Temperature": -7.24077380952381,
-        "GHI During Lowest Temperature": 119.25595238095238
+        "Latitude": 0.0,
+        "Longitude": 0.0
+    },
+    "Location Data": {
+        "3 Day Period": {
+            "Lowest GHI": 65.54464285714286,
+            "Temperature During Lowest GHI": 14.855357142857141,
+            "Lowest Temperature": 11.964285714285714,
+            "GHI During Lowest Temperature": 147.3154761904762,
+            "Total kWh Per Day For Lowest Temperature": 0.0,
+            "Total PV Panel Area For Lowest GHI at Lowest Temperature": 0.0
+        }
     }
 }

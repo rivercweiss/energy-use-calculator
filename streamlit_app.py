@@ -105,10 +105,11 @@ with col2:
 with col3:
     st.header("Location Outputs", help= "Calculated with NREL data from 2001-2020. Calculations assume ground temperature is the same as worst case air temperature")
 
-    st.write("Latitude: ")
-    st.write(EnergyJson["Location"]["Latitude"])
-    st.write("Longitude: ")
-    st.write(EnergyJson["Location"]["Longitude"])
+    colA, colB = st.columns(2)
+    colA.write("Previously Input Latitude: ")
+    colA.write(EnergyJson["Location"]["Latitude"])
+    colB.write("Previously Input Longitude: ")
+    colB.write(EnergyJson["Location"]["Longitude"])
 
     for days in num_days:
         day_string = str(days) + " Day Period"
@@ -117,3 +118,6 @@ with col3:
                 st.write(f"{item}")
                 value = round(EnergyJson["Location Data"][day_string][item], 2)
                 st.write(value)
+
+with open(fileName) as f:
+   st.download_button('Download JSON of Data', f)

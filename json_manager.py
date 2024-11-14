@@ -104,6 +104,12 @@ def writeDefaultJson():
         "Solar": {
             "Solar Area Required": 0.0,
             "Cost Of Solar Required": 0.0,
+        },
+        "Location": {
+            "Lowest GHI": 0.0,
+            "Temperature During Lowest GHI": 0.0,
+            "Lowest Temperature": 0.0,
+            "GHI During Lowest Temperature": 0.0,
         }
     }
 

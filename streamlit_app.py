@@ -2,6 +2,7 @@ import streamlit as st
 import json_manager
 import json
 import os
+import solar_data_fetcher
 
 # Setup Page Layout
 st.set_page_config(layout="wide")
@@ -19,6 +20,35 @@ def update_value(category, item, uniqueKey):
     # Save Values to File
     with open(fileName, "w") as file:
         json.dump(EnergyJson, file, indent=4)
+
+def fetchData(latitude,longitude, num_days):
+    st.write("Fetching Data, this will take 1-2 minutes")
+    df = solar_data_fetcher.getGHIAndTemperature(latitude, longitude)
+    lowest_ghi, temp_during_lowest_ghi, lowest_temp, ghi_during_lowest_temp = solar_data_fetcher.determineLowestTemperatureAndGhi(df, num_days)
+    EnergyJson["Location"]["Lowest GHI"] = lowest_ghi
+    EnergyJson["Location"]["Temperature During Lowest GHI"] = temp_during_lowest_ghi
+    EnergyJson["Location"]["Lowest Temperature"] = lowest_temp
+    EnergyJson["Location"]["GHI During Lowest Temperature"] = ghi_during_lowest_temp
+    # Save Values to File
+    with open(fileName, "w") as file:
+        json.dump(EnergyJson, file, indent=4)
+
+# Display
+colA, colB, colC = st.columns(3)
+
+with colA:
+    latitude = st.number_input("Input Latitude", value=None, placeholder="Ex. 36.606841513598376")
+with colB:
+    longitude = st.number_input("Input Longitude", value=None, placeholder="Ex. -121.85034252078556")
+with colC:
+    if (longitude != None) and (latitude != None):
+        enabled = True
+    else:
+        enabled = False
+    submitted = st.button("Fetch Location Data", disabled= (not enabled), on_click= fetchData(latitude,longitude, 14))
+    if (submitted == True):
+        st.write("Fetching Data, this will take 1-2 minutes")
+
 
 # Display
 col1, col2, col3 = st.columns(3)
@@ -54,16 +84,22 @@ with col2:
         with st.expander(category + " Energy Use"):
             colA, colB = st.columns(2)
             for item in EnergyJson["Outputs"][category]:
-                colA.write(item)
-                colB.write(EnergyJson["Outputs"][category][item])
+                value = round(EnergyJson["Outputs"][category][item], 2)
+                colA.write(f"{item}")
+                colB.write(value)
 
 with col3:
-    st.header("Worst Case Temperature 3 Days")
-    st.header("Worst Case Temperature 7 Days")
-    st.header("Worst Case Temperature 14 Days")
-    
-    st.header("Worst Case GHI 3 Days")
-    st.header("Worst Case GHI 7 Days")
-    st.header("Worst Case GHI 14 Days")
+    st.header("Location Requirements")
 
-    st.header("Photovoltaic Area Required")
+    st.write(EnergyJson["Location"]["Lowest GHI"])
+    st.write(EnergyJson["Location"]["Temperature During Lowest GHI"])
+    st.write(EnergyJson["Location"]["Lowest Temperature"])
+    st.write(EnergyJson["Location"]["GHI During Lowest Temperature"])
+
+    st.write("Worst Case Temperature 3 Days")
+    st.write("Worst Case Temperature 7 Days")
+    st.write("Worst Case Temperature 14 Days")
+    st.write("Worst Case GHI 3 Days")
+    st.write("Worst Case GHI 7 Days")
+    st.write("Worst Case GHI 14 Days")
+    st.write("Photovoltaic Area Required")

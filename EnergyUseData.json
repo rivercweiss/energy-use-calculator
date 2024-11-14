@@ -54,12 +54,12 @@
     },
     "Outputs": {
         "Total": {
-            "Total kWh Per Day": 83.92977947616453
+            "Total kWh Per Day": 84.1752317009921
         },
         "HVAC": {
-            "Total HVAC kWh Per Day": 44.24732766169685,
+            "Total HVAC kWh Per Day": 44.49277988652443,
             "Ventilation kWh Per Day": 7.5267528336,
-            "Roof kWh Per Day": 6.872662295172415,
+            "Roof kWh Per Day": 7.118114519999999,
             "Wall kWh Per Day": 11.813714752591638,
             "Window kWh Per Day": 6.645214548332795,
             "Floor kWh Per Day": 11.388983232000001,
@@ -98,7 +98,13 @@
         }
     },
     "Solar": {
-        "Solar Area Required": 1392.064484739212,
-        "Cost Of Solar Required": 13920.644847392121
+        "Solar Area Required": 1396.1355704374619,
+        "Cost Of Solar Required": 13961.355704374619
+    },
+    "Location": {
+        "Lowest GHI": 99.44642857142857,
+        "Temperature During Lowest GHI": -5.23452380952381,
+        "Lowest Temperature": -7.24077380952381,
+        "GHI During Lowest Temperature": 119.25595238095238
     }
 }

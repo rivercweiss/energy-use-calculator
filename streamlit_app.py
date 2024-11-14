@@ -118,6 +118,14 @@ with col3:
                 st.write(f"{item}")
                 value = round(EnergyJson["Location Data"][day_string][item], 2)
                 st.write(value)
+    
+    with st.expander("Summary Of Target Energy Use"):
+        for days in num_days:
+            day_string = str(days) + " Day Period"
+            day_title = str(days) + " Day Period Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2"
+            st.write(f"{day_title}")
+            value = round(EnergyJson["Location Data"][day_string]["Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)"], 2)
+            st.write(value)
 
 with open(fileName) as f:
    st.download_button('Download JSON of Data', f)

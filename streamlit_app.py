@@ -24,14 +24,34 @@ def update_value(category, item, uniqueKey):
     with open(fileName, "w") as file:
         json.dump(EnergyJson, file, indent=4)
 
-def fetchData(latitude,longitude, num_days):
+def fetchData(latitude,longitude):
     st.write("Fetching Data takes 1-2 minutes, invalid Lat or Long will return an error")
     df = solar_data_fetcher.getGHIAndTemperature(latitude, longitude)
-    lowest_ghi, temp_during_lowest_ghi, lowest_temp, ghi_during_lowest_temp = solar_data_fetcher.determineLowestTemperatureAndGhi(df, num_days)
-    EnergyJson["Location"]["Lowest GHI"] = lowest_ghi
-    EnergyJson["Location"]["Temperature During Lowest GHI"] = temp_during_lowest_ghi
-    EnergyJson["Location"]["Lowest Temperature"] = lowest_temp
-    EnergyJson["Location"]["GHI During Lowest Temperature"] = ghi_during_lowest_temp
+    EnergyJson["Location"]["Latitude"] = latitude
+    EnergyJson["Location"]["Longitude"] = longitude
+    for days in num_days:
+        day_string = str(days) + " Day Period"
+        # Search data for rolling average values
+        lowest_ghi, temp_during_lowest_ghi, lowest_temp, ghi_during_lowest_temp = solar_data_fetcher.determineLowestTemperatureAndGhi(df, days)
+        EnergyJson["Location Data"][day_string]["Lowest GHI"] = lowest_ghi
+        EnergyJson["Location Data"][day_string]["Temperature During Lowest GHI"] = temp_during_lowest_ghi
+        EnergyJson["Location Data"][day_string]["Lowest Temperature"] = lowest_temp
+        EnergyJson["Location Data"][day_string]["GHI During Lowest Temperature"] = ghi_during_lowest_temp
+
+        # Calculate kwh and solar requirements
+        kWhWithoutHvac = EnergyJson["Outputs"]["Total"]["Total kWh Per Day"] - EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"]
+        totalHvacKwhLowestTemp = json_manager.calcHVAC(EnergyJson, lowest_temp, lowest_temp)[0]
+        totalKwhLowestTemp = kWhWithoutHvac + totalHvacKwhLowestTemp
+        EnergyJson["Location Data"][day_string]["Total kWh Per Day For Lowest Temperature"] = totalKwhLowestTemp
+
+        pvAreaLowGhiLowTemp = totalKwhLowestTemp / (lowest_ghi * 24 / 1000) * 10.7 / 0.21
+        EnergyJson["Location Data"][day_string]["Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature"] = pvAreaLowGhiLowTemp
+
+        totalHvacKwhTempDuringLowestGhi = json_manager.calcHVAC(EnergyJson, temp_during_lowest_ghi, temp_during_lowest_ghi)[0]
+        totalKwhLowestGhi = kWhWithoutHvac + totalHvacKwhTempDuringLowestGhi
+        pvAreaLowGhiStandardTemp = totalKwhLowestGhi / (lowest_ghi * 24 / 1000) * 10.7 / 0.21
+        EnergyJson["Location Data"][day_string]["Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI"] = pvAreaLowGhiStandardTemp
+
     # Save Values to File
     with open(fileName, "w") as file:
         json.dump(EnergyJson, file, indent=4)
@@ -45,7 +65,7 @@ with colB:
     longitude = st.number_input("Input Longitude", value=None, placeholder="Ex. -121.85", help= 'Find a location in google maps and right click to access coordinates. Two decimal places are accurate to 1.1 km')
 with colC:
     if (longitude != None) and (latitude != None):
-        submitted = st.button("Fetch Location Data", on_click= fetchData(latitude,longitude, 14))
+        submitted = st.button("Fetch Location Data", on_click= fetchData(latitude,longitude))
     else:
         st.write("Input Lat and Long to fetch location data")
 
@@ -55,19 +75,6 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.header("Inputs")
-
-    with st.expander("Select Location"):
-        LocationOptions = ["None"]
-        for item in EnergyJson["Locations"]:
-            LocationOptions.append(item)
-        
-        option = st.selectbox(
-            "Locations",
-            LocationOptions,
-        )
-        if option != "None":
-            EnergyJson["Inputs"]["HVAC"]["Outdoor Air Temperature F"] = EnergyJson["Locations"][option]["Minimum Temperature F"]
-            EnergyJson["Inputs"]["Irradiance"]["GHI Watts/m^2 Average"] = EnergyJson["Locations"][option]["Minimum GHI Watts/m^2 Average"]
 
     for category in EnergyJson["Inputs"]:
         with st.expander(category + " Inputs"):
@@ -89,7 +96,7 @@ with col2:
                 colB.write(value)
 
 with col3:
-    st.header("Location Outputs")
+    st.header("Location Outputs", help= "Calculations here assume ground temperature is the same as worst case air temperature")
 
     st.write("Latitude: ")
     st.write(EnergyJson["Location"]["Latitude"])

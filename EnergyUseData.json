@@ -1,0 +1,104 @@
+{
+    "Inputs": {
+        "Irradiance": {
+            "GHI Watts/m^2 Average": 200
+        },
+        "HVAC": {
+            "Roof R Value": 28,
+            "Floor Area": 2024,
+            "Wall R Value": 15,
+            "Wall Height": 10,
+            "Floor R Value": 15,
+            "Window R Value": 4,
+            "Window Area Percent": 15,
+            "Ground Temperature F": 60,
+            "Outdoor Air Temperature F": 58,
+            "Indoor Air Temperature F": 72,
+            "HVAC Efficiency Percent": 100,
+            "Air Changes Per Hour": 3,
+            "Ventilation Recovery Percent": 25
+        },
+        "Hot Water": {
+            "Water Use Per Day Liters": 230,
+            "Water Heater Temperature C": 55,
+            "Water Inlet Temperature C": 10,
+            "Water Heater Efficiency Percent": 95,
+            "Water Heat Recovery Efficiency Percent": 0
+        },
+        "Lighting": {
+            "Lumens Per Square Foot": 50,
+            "Lumens Per Watt": 75,
+            "Lights On Hours Per Day": 2
+        },
+        "Cooking": {
+            "Cooking Appliance Wattage": 2500,
+            "Cooking Hours Per Day": 1.5
+        },
+        "Clothes Drying": {
+            "Clothes Drying Wattage": 2500,
+            "Clothes Drying Hours Per Day": 0.5
+        },
+        "Dishwasher": {
+            "Dishwasher Wattage": 2500,
+            "Dishwasher Hours Per Day": 0.5
+        },
+        "Refrigerator": {
+            "Refrigerator kWh Per Year": 400
+        },
+        "Electric Car": {
+            "Electric Car kWh Per Day": 12.0
+        },
+        "Misc Plug Load": {
+            "Misc Plug Load kWh Per Day": 5.0
+        }
+    },
+    "Outputs": {
+        "Total": {
+            "Total kWh Per Day": 83.92977947616453
+        },
+        "HVAC": {
+            "Total HVAC kWh Per Day": 44.24732766169685,
+            "Ventilation kWh Per Day": 7.5267528336,
+            "Roof kWh Per Day": 6.872662295172415,
+            "Wall kWh Per Day": 11.813714752591638,
+            "Window kWh Per Day": 6.645214548332795,
+            "Floor kWh Per Day": 11.388983232000001,
+            "Wall Area sqft": 1799.5555006723189,
+            "Window Area sqft": 269.9333251008478
+        },
+        "Hot Water": {
+            "Total Hot Water kWh Per Day": 12.637894736842107
+        },
+        "Lighting": {
+            "Lighting kWh Per Day": 2.6986666666666665
+        },
+        "Cooking": {
+            "Cooking kWh Per Day": 3.75
+        },
+        "Clothes Drying": {
+            "Clothes Drying kWh Per Day": 1.25
+        },
+        "Dishwasher": {
+            "Dishwasher kWh Per Day": 1.25
+        },
+        "Refrigerator": {
+            "Refrigerator kWh Per Day": 1.095890410958904
+        },
+        "Electric Car": {
+            "Electric Car kWh Per Day": 12.0
+        },
+        "Misc Plug Load": {
+            "Misc Plug Load kWh Per Day": 5.0
+        }
+    },
+    "Locations": {
+        "Monterey": {
+            "Minimum Temperature F": 58,
+            "Minimum GHI Watts/m^2 Average": 128
+        }
+    },
+    "Solar": {
+        "Solar Area Required": 1392.064484739212,
+        "Cost Of Solar Required": 13920.644847392121
+    }
+}

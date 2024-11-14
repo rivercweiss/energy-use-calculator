@@ -144,7 +144,7 @@ def writeDefaultJson():
         }
     }
 
-    fileName = "/workspaces/energy-use-calculator/EnergyUseData.json"
+    fileName = "EnergyUseData.json"
 
     with open(fileName, "w") as file:
         json.dump(EnergyJsonDefault, file, indent=4)
@@ -171,7 +171,7 @@ def calcHVAC(EnergyJson, temp, groundTemp):
     return totalKwh, ventilationKwh, roofKwh, wallKwh, windowKwh, floorKwh
 
 def calculateOutputsAndUpdateJson():
-    fileName = "/workspaces/energy-use-calculator/EnergyUseData.json"
+    fileName = "EnergyUseData.json"
 
     if not os.path.exists(fileName):
         with open(fileName, "w") as f:

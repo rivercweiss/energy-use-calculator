@@ -10,7 +10,7 @@ st.set_page_config(layout="wide")
 num_days = [3,7,14,30]
 
 # Initialize JSON
-fileName = "/workspaces/energy-use-calculator/EnergyUseData.json"
+fileName = "EnergyUseData.json"
 json_manager.calculateOutputsAndUpdateJson()
 with open(fileName, "r") as file:
         EnergyJson = json.load(file)

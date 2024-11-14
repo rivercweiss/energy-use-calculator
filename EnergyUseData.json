@@ -54,23 +54,23 @@
     },
     "Outputs": {
         "Total": {
-            "Total kWh Per Day": 84.1752317009921
+            "Total kWh Per Day": 70.26126255948438
         },
         "HVAC": {
-            "Total HVAC kWh Per Day": 44.49277988652443,
-            "Ventilation kWh Per Day": 7.5267528336,
-            "Roof kWh Per Day": 7.118114519999999,
-            "Wall kWh Per Day": 11.813714752591638,
-            "Window kWh Per Day": 6.645214548332795,
-            "Floor kWh Per Day": 11.388983232000001,
-            "Wall Area sqft": 1799.5555006723189,
-            "Window Area sqft": 269.9333251008478
+            "Total HVAC kWh Per Day": 30.610810745016707,
+            "Ventilation kWh Per Day": 5.312502,
+            "Roof kWh Per Day": 4.68914,
+            "Wall kWh Per Day": 8.388188636810693,
+            "Window kWh Per Day": 4.718356108206014,
+            "Floor kWh Per Day": 7.502624,
+            "Wall Area sqft": 1788.8543819998317,
+            "Window Area sqft": 268.32815729997475
         },
         "Hot Water": {
             "Total Hot Water kWh Per Day": 12.637894736842107
         },
         "Lighting": {
-            "Lighting kWh Per Day": 2.6986666666666665
+            "Lighting kWh Per Day": 2.6666666666666665
         },
         "Cooking": {
             "Cooking kWh Per Day": 3.75
@@ -92,45 +92,49 @@
         }
     },
     "Location": {
-        "Latitude": 36.6,
-        "Longitude": -121.85
+        "Latitude": 0.0,
+        "Longitude": 0.0
     },
     "Location Data": {
         "3 Day Period": {
-            "Lowest GHI": 20.875,
-            "Temperature During Lowest GHI": 14.180555555555555,
-            "Lowest Temperature": 10.120833333333332,
-            "GHI During Lowest Temperature": 97.20833333333333,
-            "Total kWh Per Day For Lowest Temperature": 244.72766186144574,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 24889.135841816074,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 23521.003063451804
+            "Lowest GHI": 0.0,
+            "Temperature During Lowest GHI": 0.0,
+            "Lowest Temperature": 0.0,
+            "GHI During Lowest Temperature": 0.0,
+            "Total kWh Per Day For Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
         },
         "7 Day Period": {
-            "Lowest GHI": 54.25,
-            "Temperature During Lowest GHI": 14.773809523809524,
-            "Lowest Temperature": 11.04107142857143,
-            "GHI During Lowest Temperature": 179.11904761904762,
-            "Total kWh Per Day For Lowest Temperature": 241.67832516711417,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 9457.823419238246,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 8973.777916102315
+            "Lowest GHI": 0.0,
+            "Temperature During Lowest GHI": 0.0,
+            "Lowest Temperature": 0.0,
+            "GHI During Lowest Temperature": 0.0,
+            "Total kWh Per Day For Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
         },
         "14 Day Period": {
-            "Lowest GHI": 65.54464285714286,
-            "Temperature During Lowest GHI": 14.855357142857141,
-            "Lowest Temperature": 11.964285714285714,
-            "GHI During Lowest Temperature": 147.3154761904762,
-            "Total kWh Per Day For Lowest Temperature": 238.61912645242575,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 7728.964122480907,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 7418.665367093433
+            "Lowest GHI": 0.0,
+            "Temperature During Lowest GHI": 0.0,
+            "Lowest Temperature": 0.0,
+            "GHI During Lowest Temperature": 0.0,
+            "Total kWh Per Day For Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
         },
         "30 Day Period": {
-            "Lowest GHI": 81.57083333333334,
-            "Temperature During Lowest GHI": 14.071388888888889,
-            "Lowest Temperature": 12.550694444444444,
-            "GHI During Lowest Temperature": 136.31527777777777,
-            "Total kWh Per Day For Lowest Temperature": 236.6759797081185,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 6159.883884336739,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 6028.734736358095
+            "Lowest GHI": 0.0,
+            "Temperature During Lowest GHI": 0.0,
+            "Lowest Temperature": 0.0,
+            "GHI During Lowest Temperature": 0.0,
+            "Total kWh Per Day For Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
         }
     }
 }

@@ -107,7 +107,8 @@ def writeDefaultJson():
                 "GHI During Lowest Temperature": 0.0,
                 "Total kWh Per Day For Lowest Temperature": 0.0,
                 "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0
+                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+                "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
             },
             "7 Day Period": {
                 "Lowest GHI": 0.0,
@@ -116,7 +117,9 @@ def writeDefaultJson():
                 "GHI During Lowest Temperature": 0.0,
                 "Total kWh Per Day For Lowest Temperature": 0.0,
                 "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0
+                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+                "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
+
             },
             "14 Day Period": {
                 "Lowest GHI": 0.0,
@@ -125,7 +128,8 @@ def writeDefaultJson():
                 "GHI During Lowest Temperature": 0.0,
                 "Total kWh Per Day For Lowest Temperature": 0.0,
                 "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0
+                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+                "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
             },
             "30 Day Period": {
                 "Lowest GHI": 0.0,
@@ -134,7 +138,8 @@ def writeDefaultJson():
                 "GHI During Lowest Temperature": 0.0,
                 "Total kWh Per Day For Lowest Temperature": 0.0,
                 "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 0.0,
-                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0
+                "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 0.0,
+                "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 0.0
             }
         }
     }

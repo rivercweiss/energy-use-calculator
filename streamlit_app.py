@@ -44,13 +44,21 @@ def fetchData(latitude,longitude):
         totalKwhLowestTemp = kWhWithoutHvac + totalHvacKwhLowestTemp
         EnergyJson["Location Data"][day_string]["Total kWh Per Day For Lowest Temperature"] = totalKwhLowestTemp
 
-        pvAreaLowGhiLowTemp = totalKwhLowestTemp / (lowest_ghi * 24 / 1000) * 10.7 / 0.21
-        EnergyJson["Location Data"][day_string]["Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature"] = pvAreaLowGhiLowTemp
+        # ghi (watts/m^2)
+        # (watts/m^2) * (24 h/day) * (1/1000 kw/w) * (.21 efficiency)= (kwh/m^2/day @ 21% efficiency)
+        # (kwh/m^2/day @ 21% efficiency) * (1/10.7 m^2/ft^2) = (kwh/ft^2/day @ 21% efficiency)
+        efficiency = .21
+        kwh_per_ft2_per_day = lowest_ghi * 24 * (1/1000) * efficiency * (1/10.7)
+        pvAreaLowGhiLowTemp = totalKwhLowestTemp / kwh_per_ft2_per_day
 
+        EnergyJson["Location Data"][day_string]["Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature"] = pvAreaLowGhiLowTemp
         totalHvacKwhTempDuringLowestGhi = json_manager.calcHVAC(EnergyJson, temp_during_lowest_ghi, temp_during_lowest_ghi)[0]
         totalKwhLowestGhi = kWhWithoutHvac + totalHvacKwhTempDuringLowestGhi
-        pvAreaLowGhiStandardTemp = totalKwhLowestGhi / (lowest_ghi * 24 / 1000) * 10.7 / 0.21
+        pvAreaLowGhiStandardTemp = totalKwhLowestGhi / kwh_per_ft2_per_day
         EnergyJson["Location Data"][day_string]["Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI"] = pvAreaLowGhiStandardTemp
+
+        target_energy_use = kwh_per_ft2_per_day * EnergyJson["Inputs"]["HVAC"]["Floor Area"] / 2
+        EnergyJson["Location Data"][day_string]["Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)"] = target_energy_use
 
     # Save Values to File
     with open(fileName, "w") as file:

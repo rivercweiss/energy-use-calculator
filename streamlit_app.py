@@ -133,7 +133,7 @@ with open(fileName) as f:
    st.download_button('Download JSON of Data To Save For Later', f)
 
 def processFile(fileKey):
-    if (st.session_state[fileKey] is not None) and (st.session_state["file_uploaded"] == 0):
+    if (st.session_state[fileKey] != None) and (st.session_state["file_uploaded"] == 0):
         EnergyJson = json.load(st.session_state[fileKey])
         with open(fileName, "w") as file:
             json.dump(EnergyJson, file, indent=4)

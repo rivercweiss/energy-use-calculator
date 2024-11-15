@@ -13,7 +13,7 @@ num_days = [3,7,14,30]
 fileName = "EnergyUseData.json"
 json_manager.calculateOutputsAndUpdateJson()
 with open(fileName, "r") as file:
-        EnergyJson = json.load(file)
+    EnergyJson = json.load(file)
 
 # Save Values to File
 def update_value(category, item, uniqueKey):
@@ -127,5 +127,45 @@ with col3:
             value = round(EnergyJson["Location Data"][day_string]["Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)"], 2)
             st.write(value)
 
+
+# JSON upload and download
 with open(fileName) as f:
-   st.download_button('Download JSON of Data', f)
+   st.download_button('Download JSON of Data To Save For Later', f)
+
+def processFile(fileKey):
+    if (st.session_state[fileKey] is not None) and (st.session_state["file_uploaded"] == 0):
+        EnergyJson = json.load(st.session_state[fileKey])
+        with open(fileName, "w") as file:
+            json.dump(EnergyJson, file, indent=4)
+        with open(fileName, "r") as file:
+            EnergyJson = json.load(file)
+        json_manager.calculateOutputsAndUpdateJson()
+        for category in EnergyJson["Inputs"]:
+            for item in EnergyJson["Inputs"][category]:
+                uniqueKey = str(category + item)
+                del st.session_state[uniqueKey]
+        st.session_state["file_uploaded"] += 1
+    elif (st.session_state[fileKey] == None):
+        st.session_state["file_uploaded"] = 0        
+    
+fileKey = "uploaded_file" 
+if fileKey not in st.session_state:
+    st.session_state[fileKey] = None
+
+if "file_uploaded" not in st.session_state:
+    st.session_state["file_uploaded"] = 0
+
+st.file_uploader("Upload JSON file to Update JSON", key=fileKey, type = ["json", "txt"], on_change=processFile(fileKey))
+
+if st.button("Reset to Default Values"):
+    json_manager.writeDefaultJson()
+    for category in EnergyJson["Inputs"]:
+        for item in EnergyJson["Inputs"][category]:
+            uniqueKey = str(category + item)
+            del st.session_state[uniqueKey]
+    st.write("Reset JSON Values to Default")
+
+if st.button("Update Application with JSON Values"):
+    st.write("Updated Values")
+
+

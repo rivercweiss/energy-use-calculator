@@ -7,7 +7,7 @@ import solar_data_fetcher
 st.set_page_config(layout="wide")
 
 # Number of Days to Calculate Array
-num_days = [3,7,14,30]
+num_days = [3,7,14,30,90]
 
 # Initialize JSON
 fileName = "EnergyUseData.json"
@@ -47,8 +47,12 @@ def fetchData(latitude,longitude):
         # (watts/m^2) * (24 h/day) * (1/1000 kw/w) * (.21 efficiency)= (kwh/m^2/day @ 21% efficiency)
         # (kwh/m^2/day @ 21% efficiency) * (1/10.7 m^2/ft^2) = (kwh/ft^2/day @ 21% efficiency)
         efficiency = .21
-        kwh_per_ft2_per_day = lowest_ghi * 24 * (1/1000) * efficiency * (1/10.7)
+        total_kwh_per_ft2_per_day = lowest_ghi * 24 * (1/1000) * (1/10.7)
+        kwh_per_ft2_per_day = total_kwh_per_ft2_per_day * efficiency
         pvAreaLowGhiLowTemp = totalKwhLowestTemp / kwh_per_ft2_per_day
+
+        # Find Available Solar Thermal Energy
+        EnergyJson["Location Data"][day_string]["Total Available Solar Thermal Energy"] = EnergyJson["Inputs"]["HVAC"]["Floor Area"] * total_kwh_per_ft2_per_day
 
         EnergyJson["Location Data"][day_string]["Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature"] = pvAreaLowGhiLowTemp
         totalHvacKwhTempDuringLowestGhi = json_manager.calcHVAC(EnergyJson, temp_during_lowest_ghi, temp_during_lowest_ghi)[0]
@@ -58,6 +62,15 @@ def fetchData(latitude,longitude):
 
         target_energy_use = kwh_per_ft2_per_day * EnergyJson["Inputs"]["HVAC"]["Floor Area"] / 2
         EnergyJson["Location Data"][day_string]["Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)"] = target_energy_use
+
+        # Get average values
+        avg_ghi,avg_temp = solar_data_fetcher.determineAverageTemperatureAndGhi(df)
+        EnergyJson["Location Data"]["Average"]["Temperature F"] = avg_temp
+        EnergyJson["Location Data"]["Average"]["GHI"] = avg_ghi
+
+
+
+    return avg_ghi, avg_temp
 
     # Save Values to File
     with open(fileName, "w") as file:
@@ -126,6 +139,17 @@ with col3:
             st.write(f"{day_title}")
             value = round(EnergyJson["Location Data"][day_string]["Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)"], 2)
             st.write(value)
+    
+    with st.expander("Averages"):
+        st.write("Average Temperature F")
+        st.write(round(EnergyJson["Location Data"]["Average"]["Temperature F"], 2))
+        st.write("Average GHI")
+        st.write(round(EnergyJson["Location Data"]["Average"]["GHI"], 2))
+        st.write("Lowest 90 Day Average Temperature")
+        st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest Temperature"], 2))        
+        st.write("Lowest 90 Day Average GHI")
+        st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest GHI"], 2))
+
 
 
 # JSON upload and download

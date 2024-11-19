@@ -45,6 +45,7 @@ def getGHIAndTemperature(latitude, longitude):
         dfs.append(pd.read_csv(io.StringIO(response.text), skiprows=2))
 
     df = pd.concat(dfs, ignore_index=True)
+    df['Temperature'] = df['Temperature'] * 1.8 + 32
     return df
 
 def determineLowestTemperatureAndGhi(df, num_days):
@@ -72,3 +73,10 @@ def determineLowestTemperatureAndGhi(df, num_days):
 
 
     return lowest_ghi, temp_during_lowest_ghi, lowest_temp, ghi_during_lowest_temp
+
+def determineAverageTemperatureAndGhi(df):
+
+    avg_ghi = df['GHI'].mean()
+    avg_temp = df['Temperature'].mean()
+
+    return avg_ghi, avg_temp

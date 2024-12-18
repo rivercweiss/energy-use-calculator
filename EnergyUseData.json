@@ -1,52 +1,57 @@
 {
     "Inputs": {
         "Irradiance": {
-            "GHI Watts/m^2 Average": 200
+            "GHI Watts/m^2 Average": 200.0
         },
         "HVAC": {
-            "Roof R Value": 30,
-            "Floor Area": 2000,
-            "Wall R Value": 15,
-            "Wall Height": 10,
-            "Floor R Value": 15,
-            "Window R Value": 4,
-            "Window Area Percent": 15,
-            "Ground Temperature F": 60,
-            "Outdoor Air Temperature F": 58,
-            "Indoor Air Temperature F": 68,
-            "HVAC Efficiency Percent": 100,
-            "Air Changes Per Hour": 3,
-            "Ventilation Recovery Percent": 25
+            "Floor 1 Area": 750.0,
+            "Floor 2 Area": 350.0,
+            "Wall Height": 10.0,
+            "Window Area": 200.0,
+            "Roof R Value": 30.0,
+            "Wall R Value": 19.0,
+            "Floor R Value": 19.0,
+            "Window R Value": 4.0,
+            "Ground Temperature F": 60.0,
+            "Outdoor Air Temperature F": 58.0,
+            "Indoor Air Temperature F": 68.0,
+            "HVAC Efficiency Percent": 400.0,
+            "Air Changes Per Hour": 3.0,
+            "Ventilation Recovery Percent": 25.0
+        },
+        "Solar Gain": {
+            "South Facing Percent": 25.0,
+            "Solar Heat Gain Coefficient, SHGC": 0.5
         },
         "Hot Water": {
-            "Water Use Per Day Liters": 230,
-            "Water Heater Temperature C": 55,
-            "Water Inlet Temperature C": 10,
-            "Water Heater Efficiency Percent": 95,
-            "Water Heat Recovery Efficiency Percent": 0
+            "Water Use Per Day Liters": 230.0,
+            "Water Heater Temperature C": 55.0,
+            "Water Inlet Temperature C": 10.0,
+            "Water Heater Efficiency Percent": 95.0,
+            "Water Heat Recovery Efficiency Percent": 0.0
         },
         "Lighting": {
-            "Lumens Per Square Foot": 50,
-            "Lumens Per Watt": 75,
-            "Lights On Hours Per Day": 2
+            "Lumens Per Square Foot": 50.0,
+            "Lumens Per Watt": 75.0,
+            "Lights On Hours Per Day": 2.0
         },
         "Cooking": {
-            "Cooking Appliance Wattage": 2500,
+            "Cooking Appliance Wattage": 2500.0,
             "Cooking Hours Per Day": 1.5
         },
         "Clothes Drying": {
-            "Clothes Drying Wattage": 2500,
+            "Clothes Drying Wattage": 2500.0,
             "Clothes Drying Hours Per Day": 0.5
         },
         "Dishwasher": {
-            "Dishwasher Wattage": 2500,
+            "Dishwasher Wattage": 2500.0,
             "Dishwasher Hours Per Day": 0.5
         },
         "Refrigerator": {
-            "Refrigerator kWh Per Year": 400
+            "Refrigerator kWh Per Year": 400.0
         },
         "Electric Car": {
-            "Electric Car kWh Per Day": 12.0
+            "Electric Car kWh Per Day": 0.0
         },
         "Misc Plug Load": {
             "Misc Plug Load kWh Per Day": 5.0
@@ -54,38 +59,49 @@
     },
     "Outputs": {
         "Total": {
-            "Total kWh Per Day": 70.26126255948438
+            "Total kWh Per Day": 30.76142776124195
         },
         "HVAC": {
-            "Total HVAC kWh Per Day": 30.610810745016707,
-            "Ventilation kWh Per Day": 5.312502,
-            "Roof kWh Per Day": 4.68914,
-            "Wall kWh Per Day": 8.388188636810693,
-            "Window kWh Per Day": 4.718356108206014,
-            "Floor kWh Per Day": 7.502624,
-            "Wall Area sqft": 1788.8543819998317,
-            "Window Area sqft": 268.32815729997475
+            "Total HVAC kWh Per Day": 4.310975946774273,
+            "Ventilation kWh Per Day": 0.730469025,
+            "Roof kWh Per Day": 0.43960687500000006,
+            "Wall kWh Per Day": 1.7063934020374307,
+            "Window kWh Per Day": 0.8792137500000001,
+            "Floor kWh Per Day": 0.5552928947368422,
+            "Wall Area sqft": 1843.7765923651207,
+            "Floor and Roof Area": 750.0,
+            "Total Floor Area": 1100.0
         },
         "Hot Water": {
-            "Total Hot Water kWh Per Day": 12.637894736842107
+            "Total Hot Water kWh Per Day": 12.637894736842107,
+            "Min Energy Star Appliance kWh Per Day": 1.7616438356164383,
+            "Median Energy Star Appliance kWh Per Day": 2.936986301369863
         },
         "Lighting": {
-            "Lighting kWh Per Day": 2.6666666666666665
+            "Lighting kWh Per Day": 1.4666666666666668
         },
         "Cooking": {
-            "Cooking kWh Per Day": 3.75
+            "Cooking kWh Per Day": 3.75,
+            "Min Energy Star Appliance kWh Per Day": 0.5123287671232877,
+            "Median Energy Star Appliance kWh Per Day": 0.5342465753424658
         },
         "Clothes Drying": {
-            "Clothes Drying kWh Per Day": 1.25
+            "Clothes Drying kWh Per Day": 1.25,
+            "Min Energy Star Appliance kWh Per Day": 0.7041095890410959,
+            "Median Energy Star Appliance kWh Per Day": 1.6657534246575343
         },
         "Dishwasher": {
-            "Dishwasher kWh Per Day": 1.25
+            "Dishwasher kWh Per Day": 1.25,
+            "Min Energy Star Appliance kWh Per Day": 0.547945205479452,
+            "Median Energy Star Appliance kWh Per Day": 0.6547945205479452
         },
         "Refrigerator": {
-            "Refrigerator kWh Per Day": 1.095890410958904
+            "Refrigerator kWh Per Day": 1.095890410958904,
+            "Min Energy Star Appliance kWh Per Day": 0.9123287671232877,
+            "Median Energy Star Appliance kWh Per Day": 1.5616438356164384
         },
         "Electric Car": {
-            "Electric Car kWh Per Day": 12.0
+            "Electric Car kWh Per Day": 0.0
         },
         "Misc Plug Load": {
             "Misc Plug Load kWh Per Day": 5.0
@@ -101,55 +117,60 @@
             "Temperature During Lowest GHI": 57.525000000000006,
             "Lowest Temperature": 44.125,
             "GHI During Lowest Temperature": 142.27777777777777,
-            "Total kWh Per Day For Lowest Temperature": 117.21189116819505,
-            "Total Available Solar Thermal Energy": 93.64485981308412,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 11920.608644612556,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 7493.35876161617,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 9.832710280373833
+            "Total kWh Per Day For Lowest Temperature": 67.77547314468265,
+            "Total Available Solar Thermal Energy": 35.11682242990655,
+            "Solar Gain Through Windows": 1.1705607476635516,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 6892.8577383148395,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 4586.23401410483,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 3.6872663551401876
         },
         "7 Day Period": {
             "Lowest GHI": 40.88095238095238,
             "Temperature During Lowest GHI": 57.40357142857143,
             "Lowest Temperature": 45.949999999999996,
             "GHI During Lowest Temperature": 138.74404761904762,
-            "Total kWh Per Day For Lowest Temperature": 111.28311098722952,
-            "Total Available Solar Thermal Energy": 183.39118825100135,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 5779.117101355833,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 3846.812247741115,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 19.25607476635514
+            "Total kWh Per Day For Lowest Temperature": 63.405290644774,
+            "Total Available Solar Thermal Energy": 68.7716955941255,
+            "Solar Gain Through Windows": 2.2923898531375166,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 3292.7422340277703,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 2353.0882586945063,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 7.221028037383178
         },
         "14 Day Period": {
             "Lowest GHI": 57.333333333333336,
             "Temperature During Lowest GHI": 58.10000000000001,
             "Lowest Temperature": 48.77857142857143,
             "GHI During Lowest Temperature": 135.95238095238096,
-            "Total kWh Per Day For Lowest Temperature": 102.09408182221048,
-            "Total Available Solar Thermal Energy": 257.196261682243,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 3780.4771438872235,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 2659.1534352324393,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 27.005607476635518
+            "Total kWh Per Day For Lowest Temperature": 57.44809730830757,
+            "Total Available Solar Thermal Energy": 96.44859813084113,
+            "Solar Gain Through Windows": 3.2149532710280377,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 2127.2655080249547,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1631.9446458522657,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 10.12710280373832
         },
         "30 Day Period": {
             "Lowest GHI": 72.18194444444444,
             "Temperature During Lowest GHI": 57.565000000000005,
             "Lowest Temperature": 50.3675,
             "GHI During Lowest Temperature": 139.18333333333334,
-            "Total kWh Per Day For Lowest Temperature": 96.93221430261838,
-            "Total Available Solar Thermal Energy": 323.80685358255454,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 2850.970989419969,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 2163.255481856504,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 33.99971962616823
+            "Total kWh Per Day For Lowest Temperature": 53.78729969392943,
+            "Total Available Solar Thermal Energy": 121.42757009345796,
+            "Solar Gain Through Windows": 4.047585669781932,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1581.9924483298237,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1324.2436716245231,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 12.749894859813084
         },
         "90 Day Period": {
             "Lowest GHI": 95.90648148148148,
             "Temperature During Lowest GHI": 55.344166666666666,
             "Lowest Temperature": 52.538333333333334,
             "GHI During Lowest Temperature": 117.77638888888889,
-            "Total kWh Per Day For Lowest Temperature": 89.87994381338767,
-            "Total Available Solar Thermal Energy": 430.23468328141223,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1989.6105501320208,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1787.8344922479694,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 45.17464174454829
+            "Total kWh Per Day For Lowest Temperature": 48.59304287634559,
+            "Total Available Solar Thermal Energy": 161.3380062305296,
+            "Solar Gain Through Windows": 5.3779335410176525,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1075.6707967077534,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1084.166173550878,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 16.940490654205608
         },
         "Average": {
             "Temperature F": 59.56536746575342,

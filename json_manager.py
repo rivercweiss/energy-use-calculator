@@ -64,12 +64,16 @@ def writeDefaultJson():
         "Cost": {
             "PV Cost Per Square Foot": 43,
             "Battery Cost Per kWh": 1000,
-            "Generator Cost Per kW": 600
+            "Generator Cost Per kW": 600,
+            "Generator Propane Cost per Gallon": 2.5,
+            "Generator Propane Fuel Use (Gallons/day/kW)": 5.1,
+            "Generator Exercising Propane Fuel Use (Gallons/day/kW)": 0.0012
         }
     },
     "Outputs": {
         "Total": {
-            "Total kWh Per Day": 0
+            "Total kWh Per Day": 0,
+            "Average US Home Energy Use (2000 sqft) kWh/day": 60.2
         },
         "HVAC": {
             "Total HVAC kWh Per Day": 0,

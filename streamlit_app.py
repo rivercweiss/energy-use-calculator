@@ -176,19 +176,27 @@ with col3:
         st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest Temperature"], 2))        
         st.write("Lowest 90 Day Average GHI")
         st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest GHI Average (w/m^2)"], 2))
+        st.write("Average US Home Energy Use (2000 sqft) kWh/day")
+        st.write(EnergyJson['Outputs']["Total"]["Average US Home Energy Use (2000 sqft) kWh/day"])
 
-    with st.expander("System Sizing And Costs"):
-        for item in ["input", "energy_star"]:
-            energy_required = 0
-            if item == "input":
-                st.write("Total Energy Use as Input kWh/day")
-                energy_required = round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"], 2)
-            else:
-                st.write("Total Minimum Energy Star Appliance, Input Lighting and HVAC kWh/day")
-                energy_required = round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2)
+    # PV System Sizing and Costs
+    for item in ["input", "energy_star"]:
+        energy_required = 0
+        title = ""
+        if item == "input":
+            title = "System PV Sizing And Costs for Total Energy Use as Input"
+            energy_required = round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"], 2)
+        else:
+            title = "System PV Sizing And Costs for Total Minimum Energy Star Appliance, Input Lighting and HVAC"
+            energy_required = round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2)
 
+        with st.expander(title):
+            st.write("Energy Required kWh/day")
             st.write(energy_required)
-    
+
+            st.write("Max Available Roof Area")
+            st.write(round(EnergyJson["Outputs"]["HVAC"]["Floor and Roof Area"], 2))
+
             st.write("Solar Panel Area Required for Minimum 14 Day GHI")
             pv_conversion = 24 / 10.7 / 1000 * EnergyJson["Inputs"]["Irradiance"]["PV Efficiency"]
             kwh_per_sqft = EnergyJson["Location Data"]["14 Day Period"]["Lowest GHI Average (w/m^2)"] * pv_conversion
@@ -208,9 +216,87 @@ with col3:
             st.write("Cost for Solar Panels for Average GHI")
             st.write(round(sqft_required * EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
 
+    # Battery System Sizing and Costs
+    for item in ["input", "energy_star"]:
+        energy_required = 0
+        title = ""
+        if item == "input":
+            title = "System Battery Sizing And Costs for Total Energy Use as Input"
+            energy_required = round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"], 2)
+        else:
+            title = "System Battery Sizing And Costs for Total Minimum Energy Star Appliance, Input Lighting and HVAC"
+            energy_required = round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2)
 
-        st.write("Max Available Roof Area")
-        st.write(round(EnergyJson["Outputs"]["HVAC"]["Floor and Roof Area"], 2))
+        with st.expander(title):
+            st.write("Energy Required kWh/day")
+            st.write(energy_required)
+
+            st.write("Solar Energy Available for Lowest 14 Day Period 1/2 Roof Area kwh/day")
+            solar_energy_available = round(EnergyJson["Location Data"]["14 Day Period"]["Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)"], 2)
+            st.write(solar_energy_available)
+
+            st.write("Battery Storage Required for 14 Day Period With Solar kWh")
+            battery_kwh_required_solar = (energy_required - solar_energy_available) * 14
+            st.write(battery_kwh_required_solar)
+
+            st.write("Battery Storage Required for 14 Day Period No Solar kWh")
+            battery_kwh_required = (energy_required) * 14
+            st.write(battery_kwh_required)
+
+            st.write("Cost for Battery Storage With Solar")
+            st.write(round(battery_kwh_required_solar * EnergyJson["Inputs"]["Cost"]["Battery Cost Per kWh"], 2))
+            # "Generator Cost Per kW": 
+
+            st.write("Cost for Battery Storage No Solar")
+            st.write(round(battery_kwh_required * EnergyJson["Inputs"]["Cost"]["Battery Cost Per kWh"], 2))
+            # "Generator Cost Per kW": 
+
+    # Generator System Sizing and Costs
+    for item in ["input", "energy_star"]:
+        energy_required = 0
+        title = ""
+        if item == "input":
+            title = "System Generator Sizing And Costs for Total Energy Use as Input"
+            energy_required = round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"], 2)
+        else:
+            title = "System Generator Sizing And Costs for Total Minimum Energy Star Appliance, Input Lighting and HVAC"
+            energy_required = round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2)
+
+        with st.expander(title):
+            st.write("Energy Required kWh/day")
+            st.write(energy_required)
+
+            st.write("Peak Power / Generator Size Estimate Assuming All Daily Energy Used in 2 hours kW")
+            peak_power_estimate = round(energy_required / 2, 2)
+            st.write(peak_power_estimate)
+
+            st.write("Average Power / Generator Size Required kW")
+            average_power = round(energy_required / 24, 2)
+            st.write(average_power)
+
+            for power in [average_power, peak_power_estimate]:
+                if power == average_power:
+                    st.markdown("***Average Power Generator Calculations***")
+                else:
+                    st.markdown("***Peak Power Generator Calculations***")
+    
+                st.write("Generator Purchase Cost")
+                st.write(round(power * EnergyJson["Inputs"]["Cost"]["Generator Cost Per kW"], 2))
+
+                st.write("Generator Fuel Storage Required For 14 Day Outage")
+                fuel_used = round(power * EnergyJson["Inputs"]["Cost"]["Generator Propane Fuel Use (Gallons/day/kW)"] * 14, 2)
+                st.write(fuel_used)
+
+                st.write("Cost of Fuel For 14 Day Outage")
+                st.write(round(fuel_used * EnergyJson["Inputs"]["Cost"]["Generator Propane Cost per Gallon"], 2))
+
+                st.write("Yearly Propane Use To Exercise Generator Gallons")
+                yearly_fuel_used_exercising = round(power * EnergyJson["Inputs"]["Cost"]["Generator Exercising Propane Fuel Use (Gallons/day/kW)"] * 365, 2)
+                st.write(yearly_fuel_used_exercising)
+
+                st.write("Yearly Cost To Exercise Generator")
+                yearly_cost_exercising = round(yearly_fuel_used_exercising * EnergyJson["Inputs"]["Cost"]["Generator Propane Cost per Gallon"], 2)
+                st.write(yearly_cost_exercising)
 
 
 # JSON upload and download
@@ -254,5 +340,6 @@ try:
     if st.button("Update Application with JSON Values"):
         st.write("Updated Values")
 except:
-    st.rerun()
+    st.write("Reload to Upload JSON File")
+    # st.rerun()
 

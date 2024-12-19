@@ -33,7 +33,7 @@ def fetchData(latitude,longitude):
         day_string = str(days) + " Day Period"
         # Search data for rolling average values
         lowest_ghi, temp_during_lowest_ghi, lowest_temp, ghi_during_lowest_temp = solar_data_fetcher.determineLowestTemperatureAndGhi(df, days)
-        EnergyJson["Location Data"][day_string]["Lowest GHI"] = lowest_ghi
+        EnergyJson["Location Data"][day_string]["Lowest GHI Average (w/m^2)"] = lowest_ghi
         EnergyJson["Location Data"][day_string]["Temperature During Lowest GHI"] = temp_during_lowest_ghi
         EnergyJson["Location Data"][day_string]["Lowest Temperature"] = lowest_temp
         EnergyJson["Location Data"][day_string]["GHI During Lowest Temperature"] = ghi_during_lowest_temp
@@ -53,9 +53,9 @@ def fetchData(latitude,longitude):
         EnergyJson["Location Data"][day_string]["Total kWh Per Day For Lowest Temperature"] = totalKwhLowestTemp
 
         # ghi (watts/m^2)
-        # (watts/m^2) * (24 h/day) * (1/1000 kw/w) * (.21 efficiency)= (kwh/m^2/day @ 21% efficiency)
-        # (kwh/m^2/day @ 21% efficiency) * (1/10.7 m^2/ft^2) = (kwh/ft^2/day @ 21% efficiency)
-        efficiency = .21
+        # (watts/m^2) * (24 h/day) * (1/1000 kw/w) * ( efficiency)= (kwh/m^2/day @ efficiency)
+        # (kwh/m^2/day @ efficiency) * (1/10.7 m^2/ft^2) = (kwh/ft^2/day @ efficiency)
+        efficiency = EnergyJson["Inputs"]["Irradiance"]["PV Efficiency"]
         kwh_per_ft2_per_day = total_kwh_per_ft2_per_day * efficiency
         pvAreaLowGhiLowTemp = totalKwhLowestTemp / kwh_per_ft2_per_day
 
@@ -158,11 +158,14 @@ with col3:
         st.write("Input Appliance Energy Use + Misc Energy Use")
         st.write(round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"] - EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"], 2))
         st.write("Min Energy Star Appliance Energy Use")
-        st.write(round(EnergyJson["Outputs"]["Lighting"]["Lighting kWh Per Day"] + EnergyJson["Outputs"]["Refrigerator"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Cooking"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Clothes Drying"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Dishwasher"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Hot Water"]["Min Energy Star Appliance kWh Per Day"], 2))
+        min_energy_star_use = round(EnergyJson["Outputs"]["Lighting"]["Lighting kWh Per Day"] + EnergyJson["Outputs"]["Refrigerator"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Cooking"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Clothes Drying"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Dishwasher"]["Min Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Hot Water"]["Min Energy Star Appliance kWh Per Day"], 2)
+        st.write(min_energy_star_use)
         st.write("Median Energy Star Appliance Energy Use")
         st.write(round(EnergyJson["Outputs"]["Lighting"]["Lighting kWh Per Day"] + EnergyJson["Outputs"]["Refrigerator"]["Median Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Cooking"]["Median Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Clothes Drying"]["Median Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Dishwasher"]["Median Energy Star Appliance kWh Per Day"] + EnergyJson["Outputs"]["Hot Water"]["Median Energy Star Appliance kWh Per Day"], 2))
         st.write("HVAC Energy Use")
         st.write(round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"], 2))
+        st.write("Minimum Energy Star and HVAC Energy Use")
+        st.write(round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2))
 
     with st.expander("Averages"):
         st.write("Average Temperature F")
@@ -172,7 +175,42 @@ with col3:
         st.write("Lowest 90 Day Average Temperature")
         st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest Temperature"], 2))        
         st.write("Lowest 90 Day Average GHI")
-        st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest GHI"], 2))
+        st.write(round(EnergyJson["Location Data"]["90 Day Period"]["Lowest GHI Average (w/m^2)"], 2))
+
+    with st.expander("System Sizing And Costs"):
+        for item in ["input", "energy_star"]:
+            energy_required = 0
+            if item == "input":
+                st.write("Total Energy Use as Input kWh/day")
+                energy_required = round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"], 2)
+            else:
+                st.write("Total Minimum Energy Star Appliance, Input Lighting and HVAC kWh/day")
+                energy_required = round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2)
+
+            st.write(energy_required)
+    
+            st.write("Solar Panel Area Required for Minimum 14 Day GHI")
+            pv_conversion = 24 / 10.7 / 1000 * EnergyJson["Inputs"]["Irradiance"]["PV Efficiency"]
+            kwh_per_sqft = EnergyJson["Location Data"]["14 Day Period"]["Lowest GHI Average (w/m^2)"] * pv_conversion
+            sqft_required = round(energy_required/kwh_per_sqft, 2)
+            st.write(sqft_required)
+
+            st.write("Cost for Solar Panels for 14 Day GHI")
+            st.write(round(sqft_required * EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
+            # "Battery Cost Per kWh": 1000,
+            # "Generator Cost Per kW": 
+
+            st.write("Solar Panel Area Required for Average GHI")
+            kwh_per_sqft = EnergyJson["Location Data"]["Average"]["GHI"] * pv_conversion
+            sqft_required = round(energy_required/kwh_per_sqft, 2)
+            st.write(sqft_required)
+
+            st.write("Cost for Solar Panels for Average GHI")
+            st.write(round(sqft_required * EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
+
+
+        st.write("Max Available Roof Area")
+        st.write(round(EnergyJson["Outputs"]["HVAC"]["Floor and Roof Area"], 2))
 
 
 # JSON upload and download
@@ -195,23 +233,26 @@ def processFile(fileKey):
     elif (st.session_state[fileKey] == None):
         st.session_state["file_uploaded"] = 0        
     
-fileKey = "uploaded_file" 
+fileKey = str("uploaded_file")
 if fileKey not in st.session_state:
     st.session_state[fileKey] = None
 
 if "file_uploaded" not in st.session_state:
     st.session_state["file_uploaded"] = 0
 
-st.file_uploader("Upload JSON file to Update JSON", key = fileKey, type = ["json", "txt"], on_change=processFile(fileKey))
+try:
+    st.file_uploader("Upload JSON file to Update JSON", key = fileKey, type = ["json", "txt"], on_change=processFile(fileKey))
 
-if st.button("Reset to Default Values"):
-    json_manager.writeDefaultJson()
-    for category in EnergyJson["Inputs"]:
-        for item in EnergyJson["Inputs"][category]:
-            uniqueKey = str(category + item)
-            del st.session_state[uniqueKey]
-    st.write("Reset JSON Values to Default")
+    if st.button("Reset to Default Values"):
+        json_manager.writeDefaultJson()
+        for category in EnergyJson["Inputs"]:
+            for item in EnergyJson["Inputs"][category]:
+                uniqueKey = str(category + item)
+                del st.session_state[uniqueKey]
+        st.write("Reset JSON Values to Default")
 
-if st.button("Update Application with JSON Values"):
-    st.write("Updated Values")
+    if st.button("Update Application with JSON Values"):
+        st.write("Updated Values")
+except:
+    st.rerun()
 

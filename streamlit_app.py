@@ -3,6 +3,8 @@ import json_manager
 import json
 import solar_data_fetcher
 import energy_star_data_fetcher
+import matplotlib.pyplot as plt
+import os
 
 # Setup Page Layout
 st.set_page_config(layout="wide")
@@ -27,6 +29,8 @@ def update_value(category, item, uniqueKey):
 def fetchData(latitude,longitude):
     st.write("Fetching Data takes 1-2 minutes (a while :)). Invalid Lat or Long will return an error")
     df = solar_data_fetcher.getGHIAndTemperature(latitude, longitude)
+    solar_data_fetcher.getTempAndGhiPercentiles(df)
+    solar_data_fetcher.getTempAndGhiDistribution(df)
     EnergyJson["Location"]["Latitude"] = latitude
     EnergyJson["Location"]["Longitude"] = longitude
     for days in num_days:
@@ -100,7 +104,7 @@ with colA:
 with colB:
     longitude = st.number_input("Input Longitude", value=None, placeholder="Ex. -121.85", help= 'Find a location in google maps and right click to access coordinates. Two decimal places are accurate to 1.1 km')
 with colC:
-    if ((longitude != None) and (longitude != EnergyJson["Location"]["Longitude"])) and ((latitude != None) and (latitude != EnergyJson["Location"]["Latitude"])):
+    if ((longitude != None) and (latitude != None)) and not ((longitude == EnergyJson["Location"]["Longitude"]) and (latitude == EnergyJson["Location"]["Latitude"])):
         submitted = st.button("Fetch Location Data", on_click= fetchData(latitude,longitude))
     else:
         st.write("Input Lat and Long to fetch location data")
@@ -138,6 +142,8 @@ with col3:
     colA.write(EnergyJson["Location"]["Latitude"])
     colB.write("Previously Input Longitude: ")
     colB.write(EnergyJson["Location"]["Longitude"])
+
+    pv_conversion = 24 / 10.7 / 1000 * EnergyJson["Inputs"]["Irradiance"]["PV Efficiency"]
 
     for days in num_days:
         day_string = str(days) + " Day Period"
@@ -179,6 +185,44 @@ with col3:
         st.write("Average US Home Energy Use (2000 sqft) kWh/day")
         st.write(EnergyJson['Outputs']["Total"]["Average US Home Energy Use (2000 sqft) kWh/day"])
 
+    with st.expander("PV vs Utility Costs"):
+        st.write("Utility electricity cost per kWh")
+        st.write(round(EnergyJson["Inputs"]["Cost"]["Electricity Cost Dollars per kWh"], 2))
+        st.write("Yearly electricity cost as input")
+        energy_required = round(EnergyJson["Outputs"]["Total"]["Total kWh Per Day"], 2)
+        st.write(round(energy_required * 365 * EnergyJson["Inputs"]["Cost"]["Electricity Cost Dollars per kWh"], 2))
+        st.write("Yearly electricity cost Minimum Enery Star and Input HVAC and Lighting")
+        energy_required = round(EnergyJson["Outputs"]["HVAC"]["Total HVAC kWh Per Day"] + min_energy_star_use, 2)
+        st.write(round(energy_required * 365 * EnergyJson["Inputs"]["Cost"]["Electricity Cost Dollars per kWh"], 2))
+
+        st.write("One Square Foot of PV Yearly Production Average GHI (kWh)")
+        # kwh_per_sqft = EnergyJson["Location Data"]["Average"]["GHI"] / 1000 * 24 / 10.7 * EnergyJson["Inputs"]["Irradiance"]["PV Efficiency"] * 365
+        kwh_per_sqft = EnergyJson["Location Data"]["Average"]["GHI"] * pv_conversion * 365
+        st.write(round(kwh_per_sqft, 2))
+        st.write("Yearly PV Cost Saving One Square Foot at 100% Utilization")
+        cost_savings_full = kwh_per_sqft * EnergyJson["Inputs"]["Cost"]["Electricity Cost Dollars per kWh"]
+        st.write(round(cost_savings_full, 2))
+        st.write("Yearly PV Cost Saving One Square Foot at 50% Utilization with Buyback")
+        cost_savings_half = kwh_per_sqft / 2 * EnergyJson["Inputs"]["Cost"]["Electricity Cost Dollars per kWh"] + kwh_per_sqft / 2 * EnergyJson["Inputs"]["Cost"]["Electricity Buyback Price Dollars per kWh"]
+        st.write(round(cost_savings_half, 2))
+        st.write("Yearly PV Cost Saving One Square Foot Only Buyback")
+        cost_savings_only_buyback = kwh_per_sqft * EnergyJson["Inputs"]["Cost"]["Electricity Buyback Price Dollars per kWh"]
+        st.write(round(cost_savings_only_buyback, 2))
+        st.write("Cost of One Square Foot of PV")
+        st.write(round(EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
+        st.write("Cost of Battery For Half Daily One Square Foot Solar Output")
+        battery_cost = kwh_per_sqft / 365 / 2 * EnergyJson["Inputs"]["Cost"]["Battery Cost Per kWh"]
+        st.write(round(battery_cost, 2))
+        st.write("Return On Investment Full Utilization w/o Battery")
+        st.write(round(cost_savings_full / EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
+        st.write("Return On Investment Half Utilization")
+        st.write(round(cost_savings_half / EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
+        st.write("Return On Investment Other Half Utilization with Battery")
+        st.write(round(cost_savings_full / 2 / battery_cost, 2))
+        st.write("Return On Investment Only Buyback")
+        st.write(round(cost_savings_only_buyback / EnergyJson["Inputs"]["Cost"]["PV Cost Per Square Foot"], 2))
+
+
     # PV System Sizing and Costs
     for item in ["input", "energy_star"]:
         energy_required = 0
@@ -198,7 +242,6 @@ with col3:
             st.write(round(EnergyJson["Outputs"]["HVAC"]["Floor and Roof Area"], 2))
 
             st.write("Solar Panel Area Required for Minimum 14 Day GHI")
-            pv_conversion = 24 / 10.7 / 1000 * EnergyJson["Inputs"]["Irradiance"]["PV Efficiency"]
             kwh_per_sqft = EnergyJson["Location Data"]["14 Day Period"]["Lowest GHI Average (w/m^2)"] * pv_conversion
             sqft_required = round(energy_required/kwh_per_sqft, 2)
             st.write(sqft_required)
@@ -283,21 +326,34 @@ with col3:
                 st.write("Generator Purchase Cost")
                 st.write(round(power * EnergyJson["Inputs"]["Cost"]["Generator Cost Per kW"], 2))
 
-                st.write("Generator Fuel Storage Required For 14 Day Outage")
+                st.write("Generator Fuel Storage Required For 14 Day Outage (gallons)")
                 fuel_used = round(power * EnergyJson["Inputs"]["Cost"]["Generator Propane Fuel Use (Gallons/day/kW)"] * 14, 2)
                 st.write(fuel_used)
 
                 st.write("Cost of Fuel For 14 Day Outage")
                 st.write(round(fuel_used * EnergyJson["Inputs"]["Cost"]["Generator Propane Cost per Gallon"], 2))
 
-                st.write("Yearly Propane Use To Exercise Generator Gallons")
-                yearly_fuel_used_exercising = round(power * EnergyJson["Inputs"]["Cost"]["Generator Exercising Propane Fuel Use (Gallons/day/kW)"] * 365, 2)
+                st.write("Yearly Propane Use To Exercise Generator (gallons)")
+                yearly_fuel_used_exercising = round(power * EnergyJson["Inputs"]["Cost"]["Generator Exercising Propane Fuel Use (Gallons/month/kW)"] * 12, 2)
                 st.write(yearly_fuel_used_exercising)
 
                 st.write("Yearly Cost To Exercise Generator")
                 yearly_cost_exercising = round(yearly_fuel_used_exercising * EnergyJson["Inputs"]["Cost"]["Generator Propane Cost per Gallon"], 2)
                 st.write(yearly_cost_exercising)
 
+# Display
+col1, col2 = st.columns(2)
+
+with col1:
+    paths = ["average_ghi_percentiles.png", "average_temperature_percentiles.png"]
+    for path in paths:
+        if os.path.exists(path):
+            st.image(path)
+with col2:
+    paths = ["average_temperature_distribution.png", "average_ghi_distribution.png"]
+    for path in paths:
+        if os.path.exists(path):
+            st.image(path)
 
 # JSON upload and download
 with open(fileName) as f:
@@ -340,6 +396,4 @@ try:
     if st.button("Update Application with JSON Values"):
         st.write("Updated Values")
 except:
-    st.write("Reload to Upload JSON File")
-    # st.rerun()
-
+    st.write("Rerun (press r) to Upload JSON File")

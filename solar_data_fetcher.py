@@ -2,6 +2,8 @@ import pandas as pd
 import requests
 import io
 import time
+import numpy as np
+import matplotlib.pyplot as plt
 
 def getGHIAndTemperature(latitude, longitude):
     # Declare all variables as strings. Spaces must be replaced with '+', i.e., change 'John Smith' to 'John+Smith'.
@@ -80,3 +82,63 @@ def determineAverageTemperatureAndGhi(df):
     avg_temp = df['Temperature'].mean()
 
     return avg_ghi, avg_temp
+
+def getTempAndGhiPercentiles(full_df):
+    average_df = full_df.groupby(np.arange(len(full_df))//24).mean()
+    
+    df = average_df[["Temperature", "GHI"]]
+    percentiles = [1,5,10,25,50,75,90,95,99]
+    distribution = pd.DataFrame(percentiles)
+    distribution.rename(columns={0: "Percentiles"}, inplace=True)
+
+    temperature = np.percentile(df["Temperature"], percentiles)
+    ghi = np.percentile(df["GHI"], percentiles)
+
+    distribution["Temperature"] = temperature
+    distribution["GHI"] = ghi
+    distribution['Percentiles'] = distribution['Percentiles'].astype(str) 
+
+    plt.bar(distribution['Percentiles'], distribution['Temperature'])
+
+    plt.xlabel('Percentiles')
+    plt.ylabel('Temperature F')
+    plt.title('Percentiles of Daily Average Temperature')
+    plt.ylim(min(distribution['Temperature'] - 2), max(distribution['Temperature'] + 2))
+    plt.locator_params(axis='y', nbins=15)
+
+    plt.savefig('average_temperature_percentiles.png')
+    plt.clf()  # Clear the entire figure
+
+    plt.bar(distribution['Percentiles'], distribution['GHI'])
+
+    plt.xlabel('Percentiles')
+    plt.ylabel('GHI W/m^2')
+    plt.title('Percentiles of Daily Average GHI')
+    plt.ylim(min(distribution['GHI'] - 2), max(distribution['GHI'] + 2))
+    plt.locator_params(axis='y', nbins=15)
+    plt.savefig('average_ghi_percentiles.png')
+    plt.clf()  # Clear the entire figure
+
+def getTempAndGhiDistribution(full_df):
+    average_df = full_df.groupby(np.arange(len(full_df))//24).mean()
+    
+    average_df['Temperature'].hist(bins=50)
+
+    plt.xlabel('Temperature')
+    plt.ylabel('Frequency')
+    plt.title('Distribution of Daily Average Temperature')
+    plt.locator_params(axis='x', nbins=15)
+
+    plt.savefig('average_temperature_distribution.png')
+    plt.clf()  # Clear the entire figure
+
+    average_df['GHI'].hist(bins=50)
+
+    plt.xlabel('GHI')
+    plt.ylabel('Frequency')
+    plt.title('Distribution of Daily Average GHI')
+    plt.locator_params(axis='x', nbins=15)
+
+    plt.savefig('average_ghi_distribution.png')
+    plt.clf()  # Clear the entire figure
+    

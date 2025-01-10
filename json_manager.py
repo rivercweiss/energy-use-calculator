@@ -67,7 +67,9 @@ def writeDefaultJson():
             "Generator Cost Per kW": 600,
             "Generator Propane Cost per Gallon": 2.5,
             "Generator Propane Fuel Use (Gallons/day/kW)": 5.1,
-            "Generator Exercising Propane Fuel Use (Gallons/day/kW)": 0.0012
+            "Generator Exercising Propane Fuel Use (Gallons/month/kW)": 0.036,
+            "Electricity Cost Dollars per kWh": 0.32,
+            "Electricity Buyback Price Dollars per kWh": 0.04
         }
     },
     "Outputs": {

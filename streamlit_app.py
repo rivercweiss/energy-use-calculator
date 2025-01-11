@@ -345,15 +345,17 @@ with col3:
 col1, col2 = st.columns(2)
 
 with col1:
-    paths = ["average_ghi_percentiles.png", "average_temperature_percentiles.png"]
-    for path in paths:
-        if os.path.exists(path):
-            st.image(path)
+    with st.expander("Percentile Graphs of GHI and Temperature"):
+        paths = ["average_ghi_percentiles.png", "average_temperature_percentiles.png"]
+        for path in paths:
+            if os.path.exists(path):
+                st.image(path)
 with col2:
-    paths = ["average_temperature_distribution.png", "average_ghi_distribution.png"]
-    for path in paths:
-        if os.path.exists(path):
-            st.image(path)
+    with st.expander("Distributions of GHI and Temperature"):
+        paths = ["average_temperature_distribution.png", "average_ghi_distribution.png"]
+        for path in paths:
+            if os.path.exists(path):
+                st.image(path)
 
 # JSON upload and download
 with open(fileName) as f:

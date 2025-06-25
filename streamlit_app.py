@@ -29,7 +29,7 @@ def update_value(category, item, uniqueKey):
 def fetchData(latitude,longitude):
     st.write("Fetching Data takes 1-2 minutes (a while :)). Invalid Lat or Long will return an error")
     df = solar_data_fetcher.getGHIAndTemperature(latitude, longitude)
-    solar_data_fetcher.getTempAndGhiPercentiles(df)
+    EnergyJson["Location Data"]["Average"]["GHI 25th Percentile"] = solar_data_fetcher.getTempAndGhiPercentiles(df)
     solar_data_fetcher.getTempAndGhiDistribution(df)
     EnergyJson["Location"]["Latitude"] = latitude
     EnergyJson["Location"]["Longitude"] = longitude
@@ -152,6 +152,14 @@ with col3:
                 st.write(f"{item}")
                 value = round(EnergyJson["Location Data"][day_string][item], 2)
                 st.write(value)
+
+    with st.expander("Summary Of Lowest GHI Over Previous 20 Years"):
+        for days in num_days:
+            day_string = str(days) + " Day Period"
+            day_title = str(days) + " Day Period Lowest GHI "
+            st.write(f"{day_title}")
+            value = round(EnergyJson["Location Data"][day_string]["Lowest GHI Average (w/m^2)"], 2)
+            st.write(value)
     
     with st.expander("Summary Of Target Energy Use"):
         for days in num_days:
@@ -356,6 +364,88 @@ with col2:
         for path in paths:
             if os.path.exists(path):
                 st.image(path)
+
+# Display
+col1, col2 = st.columns(2)
+
+with col1:
+    with st.expander("Inputs For Solar Costs and Emissions"):
+        winter_kwh_average = st.number_input("Winter Average Daily kWh Consumption", value=135)
+        summer_kwh_average = st.number_input("Summer Average Daily kWh Consumption", value= 65)
+        num_winter_months = st.number_input("Number of Winter Months per Year", value= 4.5)
+        winter_solar_loss = st.number_input("Winter Solar Loss", value=.25)
+        grid_cost_per_kwh = st.number_input("Average Electicity Cost", value= .49)
+        battery_cost_kwh = st.number_input("Battery Cost per kWh", value= 1000)
+        fraction_daily_storage = st.number_input("Fraction daily energy required storage", value = .6)
+        solar_cost_per_watt = st.number_input("Solar Cost per watt", value= 3.3)
+        solar_efficiency = st.number_input("Solar Efficiency", value= .21)
+        solar_angle_gain = st.number_input("Solar Gain in Output for Angled Panels", value= .12)
+        solar_system_loss = st.number_input("Solar System Loss", value= .15)
+        solar_lifetime = st.number_input("Solar System Lifetime Years", value= 30)
+        # solar_cost_per_m2 = 1000 * solar_efficiency * solar_cost_per_watt
+        # st.write(f"Solar cost per m^2 = {solar_cost_per_m2}")
+        gco2_grid = st.number_input("Average Emissions Grid Electricity gCO2/kWh", value = 384)
+        kgco2_solar_kW = st.number_input("Solar manufacturing emissions kgCO2/kW", value = 850)
+        kgco2_battery_kWh = st.number_input("Battery manufacturing emissions kgCO2/kWh", value = 55)
+
+with col2:
+    with st.expander("Solar Options Costs and Emissions"):
+        # daily kWh / (ghi watts/m^2 * efficiency * 24 hours/day / 1000 w/kW)
+        average_daily_kwh = (num_winter_months*winter_kwh_average+(12-num_winter_months)*summer_kwh_average)/12
+        required_kw_solar_neutral = average_daily_kwh / (EnergyJson["Location Data"]["Average"]["GHI"] * solar_efficiency * 24 / 1000) * (1*solar_efficiency) * (1-solar_angle_gain) * (1+solar_system_loss)
+        required_kW_solar_90_self_consumption = average_daily_kwh / (EnergyJson["Location Data"]["Average"]["GHI 25th Percentile"] * solar_efficiency * 24 / 1000) * (1*solar_efficiency) * (1-solar_angle_gain) * (1+solar_system_loss)
+        st.write("Average Daily kWh")
+        st.write(round(average_daily_kwh, 2))
+        st.write("'Energy Neutral' Self Consumption")
+        self_consumption = ((12 - num_winter_months) * summer_kwh_average + num_winter_months * (winter_kwh_average - (average_daily_kwh * (1 - winter_solar_loss)))) / ((12 - num_winter_months) * summer_kwh_average + num_winter_months * winter_kwh_average)
+        st.write(round(self_consumption, 3))
+        st.write("Required Solar kW for 'Energy Neutral'")
+        st.write(round(required_kw_solar_neutral, 2))
+        st.write("Required Solar kW for ~90% Self Consumption")
+        st.write(round(required_kW_solar_90_self_consumption, 2))
+        st.write("Required Battery Sizing for Daily Consumption kWh")
+        st.write(round(average_daily_kwh*fraction_daily_storage, 2))
+        st.write("Cost of Battery for Daily Consumption")
+        battery_cost_tot = average_daily_kwh*fraction_daily_storage*battery_cost_kwh
+        st.write(round(battery_cost_tot, 2))
+        st.write("Emissions of Battery Manufacturing for Daily Consumption, kgCO2")
+        battery_mfg_emissions = average_daily_kwh*fraction_daily_storage*kgco2_battery_kWh
+        st.write(round(battery_mfg_emissions, 2))
+        st.write("Cost of Solar for 'Energy Neutral'")
+        solar_cost_neutral = solar_cost_per_watt*required_kw_solar_neutral*1000
+        st.write(round((solar_cost_neutral), 2))
+        st.write("Cost of Solar for ~90% Self Consumption")
+        solar_cost_90 = solar_cost_per_watt*required_kW_solar_90_self_consumption*1000
+        st.write(round((solar_cost_90), 2))
+        st.write("Emissions of Solar Manufacturing for 'Energy Neutral', kgCO2")
+        solar_mfg_emissions_neutral = required_kw_solar_neutral*kgco2_solar_kW
+        st.write(round(solar_mfg_emissions_neutral, 2))
+        st.write("Emissions of Solar Manufacturing for ~90% Self Consumption, kgCO2")
+        solar_mfg_emissions_90 = required_kW_solar_90_self_consumption*kgco2_solar_kW
+        st.write(round(solar_mfg_emissions_90, 2))
+        st.write("Total Lifecycle Emissions for 'Energy Neutral', kgCO2")
+        total_kwh_consumption = average_daily_kwh * 365 * solar_lifetime
+        grid_emissions_neutral = total_kwh_consumption * (1-self_consumption) * gco2_grid / 1000
+        tot_emissions_neutral = solar_mfg_emissions_90 + grid_emissions_neutral + battery_mfg_emissions
+        st.write(round(tot_emissions_neutral, 2))
+        st.write("Total Lifecycle Emissions for ~90% Self Consumption, kgCO2")
+        grid_emissions_90 = total_kwh_consumption * (1-.9) * gco2_grid / 1000
+        tot_emissions_90 = solar_mfg_emissions_90 + grid_emissions_90 + battery_mfg_emissions
+        st.write(round(tot_emissions_90, 2))
+        st.write("Solar + Battery Annual Cost Savings for 'Energy Neutral'")
+        yearly_consumption = (average_daily_kwh * 365)
+        annual_cost_savings_neutral = self_consumption * yearly_consumption * grid_cost_per_kwh
+        st.write(round((annual_cost_savings_neutral), 4))
+        st.write("Solar + Battery Annual Cost Savings for ~90% Self Consumption")
+        annual_cost_savings_90 = .9 * yearly_consumption * grid_cost_per_kwh
+        st.write(round((annual_cost_savings_90), 4))
+        st.write("Solar + Battery Annual ROI for 'Energy Neutral' %")
+        system_cost_neutral = solar_cost_neutral + battery_cost_tot
+        st.write(round((annual_cost_savings_neutral/system_cost_neutral *100), 2))
+        st.write("Solar + Battery ROI for ~90% Self Consumption %")
+        system_cost_90 = solar_cost_90 + battery_cost_tot
+        st.write(round((annual_cost_savings_90/system_cost_90 *100), 2))
+
 
 # JSON upload and download
 with open(fileName) as f:

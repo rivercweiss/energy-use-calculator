@@ -87,7 +87,7 @@ def getTempAndGhiPercentiles(full_df):
     average_df = full_df.groupby(np.arange(len(full_df))//24).mean()
     
     df = average_df[["Temperature", "GHI"]]
-    percentiles = [1,5,10,25,50,75,90,95,99]
+    percentiles = [5,10,15,20,25,30,35,40,45,50,75,90,99]
     distribution = pd.DataFrame(percentiles)
     distribution.rename(columns={0: "Percentiles"}, inplace=True)
 
@@ -116,8 +116,12 @@ def getTempAndGhiPercentiles(full_df):
     plt.title('Percentiles of Daily Average GHI')
     plt.ylim(min(distribution['GHI'] - 2), max(distribution['GHI'] + 2))
     plt.locator_params(axis='y', nbins=15)
+    plt.grid()
     plt.savefig('average_ghi_percentiles.png')
     plt.clf()  # Clear the entire figure
+    
+    # return 25th percentile GHI
+    return distribution['GHI'][4]
 
 def getTempAndGhiDistribution(full_df):
     average_df = full_df.groupby(np.arange(len(full_df))//24).mean()
@@ -128,7 +132,6 @@ def getTempAndGhiDistribution(full_df):
     plt.ylabel('Frequency')
     plt.title('Distribution of Daily Average Temperature')
     plt.locator_params(axis='x', nbins=15)
-
     plt.savefig('average_temperature_distribution.png')
     plt.clf()  # Clear the entire figure
 
@@ -138,7 +141,6 @@ def getTempAndGhiDistribution(full_df):
     plt.ylabel('Frequency')
     plt.title('Distribution of Daily Average GHI')
     plt.locator_params(axis='x', nbins=15)
-
     plt.savefig('average_ghi_distribution.png')
     plt.clf()  # Clear the entire figure
     

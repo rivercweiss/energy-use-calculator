@@ -190,7 +190,8 @@ def writeDefaultJson():
         },
         "Average": {
             "Temperature F": 59.56536746575342,
-            "GHI": 198.68394406392693
+            "GHI": 198.68394406392693,
+            "GHI 25th Percentile": 130
         }
     }
 }

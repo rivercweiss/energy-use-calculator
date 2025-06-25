@@ -120,74 +120,74 @@
         }
     },
     "Location": {
-        "Latitude": 36.5,
-        "Longitude": -121.82
+        "Latitude": 36.6,
+        "Longitude": -121.85
     },
     "Location Data": {
         "3 Day Period": {
-            "Lowest GHI Average (w/m^2)": 21.416666666666668,
-            "Temperature During Lowest GHI": 55.4275,
-            "Lowest Temperature": 41.675,
-            "GHI During Lowest Temperature": 142.94444444444446,
-            "Total kWh Per Day For Lowest Temperature": 72.10590249995626,
-            "Total Available Solar Thermal Energy": 36.028037383177576,
-            "Solar Gain Through Windows": 1.2009345794392525,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 7505.186349703617,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 5082.343022538192,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 3.6028037383177574
+            "Lowest GHI Average (w/m^2)": 20.875,
+            "Temperature During Lowest GHI": 57.525000000000006,
+            "Lowest Temperature": 44.125,
+            "GHI During Lowest Temperature": 142.27777777777777,
+            "Total kWh Per Day For Lowest Temperature": 67.77547314468265,
+            "Total Available Solar Thermal Energy": 35.11682242990655,
+            "Solar Gain Through Windows": 1.1705607476635516,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 7237.50062523058,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 4815.545714810071,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 3.511682242990655
         },
         "7 Day Period": {
-            "Lowest GHI Average (w/m^2)": 44.708333333333336,
-            "Temperature During Lowest GHI": 54.125000000000014,
-            "Lowest Temperature": 43.56071428571428,
-            "GHI During Lowest Temperature": 139.83928571428572,
-            "Total kWh Per Day For Lowest Temperature": 67.44340778788386,
-            "Total Available Solar Thermal Energy": 75.21028037383178,
-            "Solar Gain Through Windows": 2.5070093457943927,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 3362.74214040241,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 2550.1917900861176,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 7.521028037383179
+            "Lowest GHI Average (w/m^2)": 40.88095238095238,
+            "Temperature During Lowest GHI": 57.40357142857143,
+            "Lowest Temperature": 45.949999999999996,
+            "GHI During Lowest Temperature": 138.74404761904762,
+            "Total kWh Per Day For Lowest Temperature": 63.405290644774,
+            "Total Available Solar Thermal Energy": 68.7716955941255,
+            "Solar Gain Through Windows": 2.2923898531375166,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 3457.3793457291586,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 2470.742671629231,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 6.877169559412551
         },
         "14 Day Period": {
-            "Lowest GHI Average (w/m^2)": 58.214285714285715,
-            "Temperature During Lowest GHI": 55.39464285714286,
-            "Lowest Temperature": 46.31428571428572,
-            "GHI During Lowest Temperature": 133.19345238095238,
-            "Total kWh Per Day For Lowest Temperature": 61.784928720256175,
-            "Total Available Solar Thermal Energy": 97.9305740987984,
-            "Solar Gain Through Windows": 3.264352469959947,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 2365.895276660116,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1872.0012378946226,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 9.793057409879841
+            "Lowest GHI Average (w/m^2)": 57.333333333333336,
+            "Temperature During Lowest GHI": 58.10000000000001,
+            "Lowest Temperature": 48.77857142857143,
+            "GHI During Lowest Temperature": 135.95238095238096,
+            "Total kWh Per Day For Lowest Temperature": 57.44809730830757,
+            "Total Available Solar Thermal Energy": 96.44859813084113,
+            "Solar Gain Through Windows": 3.2149532710280377,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 2233.628783426202,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1713.5418781448789,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 9.644859813084114
         },
         "30 Day Period": {
-            "Lowest GHI Average (w/m^2)": 72.64166666666667,
-            "Temperature During Lowest GHI": 54.975,
-            "Lowest Temperature": 47.834999999999994,
-            "GHI During Lowest Temperature": 139.00277777777777,
-            "Total kWh Per Day For Lowest Temperature": 58.269167437404505,
-            "Total Available Solar Thermal Energy": 122.20093457943926,
-            "Solar Gain Through Windows": 4.073364485981309,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1788.1154398882302,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1523.1237489111882,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 12.220093457943928
+            "Lowest GHI Average (w/m^2)": 72.18194444444444,
+            "Temperature During Lowest GHI": 57.565000000000005,
+            "Lowest Temperature": 50.3675,
+            "GHI During Lowest Temperature": 139.18333333333334,
+            "Total kWh Per Day For Lowest Temperature": 53.78729969392943,
+            "Total Available Solar Thermal Energy": 121.42757009345796,
+            "Solar Gain Through Windows": 4.047585669781932,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1661.0920707463144,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1390.455855205749,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 12.142757009345797
         },
         "90 Day Period": {
-            "Lowest GHI Average (w/m^2)": 96.30925925925926,
-            "Temperature During Lowest GHI": 52.7825,
-            "Lowest Temperature": 49.98583333333333,
-            "GHI During Lowest Temperature": 120.225,
-            "Total kWh Per Day For Lowest Temperature": 53.11370215960177,
-            "Total Available Solar Thermal Energy": 162.0155763239876,
-            "Solar Gain Through Windows": 5.400519210799586,
-            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1229.3656425985082,
-            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1239.1488965077212,
-            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 16.20155763239876
+            "Lowest GHI Average (w/m^2)": 95.90648148148148,
+            "Temperature During Lowest GHI": 55.344166666666666,
+            "Lowest Temperature": 52.538333333333334,
+            "GHI During Lowest Temperature": 117.77638888888889,
+            "Total kWh Per Day For Lowest Temperature": 48.59304287634559,
+            "Total Available Solar Thermal Energy": 161.3380062305296,
+            "Solar Gain Through Windows": 5.3779335410176525,
+            "Total PV Panel Area ft^2 For Lowest GHI at Lowest Temperature": 1129.4543365431412,
+            "Total PV Panel Area ft^2 For Lowest GHI at Temperature During Lowest GHI": 1138.3744822284218,
+            "Total kWh per Day at Lowest GHI and 1/2 Floor Area ft^2 (Target Energy Use)": 16.13380062305296
         },
         "Average": {
-            "Temperature F": 56.70267602739727,
-            "GHI": 214.541198630137,
-            "GHI 25th Percentile": 135.65625
+            "Temperature F": 59.56536746575342,
+            "GHI": 198.68394406392693,
+            "GHI 25th Percentile": 130.70833333333334
         }
     }
 }
